@@ -119,8 +119,8 @@ export default function Pokemons() {
       <div className="w-full">
         <div className="h-full flex flex-col mt-[8%] items-center">
           <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold tracking-tight">Pokemon club!</h2>
-            <p className="text-muted-foreground">Here's a list of your tasks for this month!</p>
+            <h2 className="text-4xl font-semium tracking-tight">Pokemon club!</h2>
+            <p className="text-muted-foreground">Here's a list of pokemons for this organization!</p>
           </div>
           <div className="w-full lg:w-[70%]">
             <div className="rounded border">
@@ -133,7 +133,7 @@ export default function Pokemons() {
                       <TableHead>Name</TableHead>
                       <TableHead>Species</TableHead>
                       <TableHead>Weight</TableHead>
-                      <TableHead className="text-right">Like/Dislike</TableHead>
+                      <TableHead></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
