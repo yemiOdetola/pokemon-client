@@ -82,6 +82,7 @@ const authSlice = createAppSlice({
     builder.addCase(signin.fulfilled, (state, action) => {
       localStorage.setItem("token", action.payload.access_token);
       state.token = action.payload.access_token;
+      state.user = action.payload.user;
       state.loading = false;
     });
   },

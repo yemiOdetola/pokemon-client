@@ -10,7 +10,7 @@ export default function Home() {
     const token = getToken();
     console.log({ token });
     if (token) {
-      router.replace('/dashboard');
+      router.replace('/pokemons');
     } else {
       router.replace('/login');
     }
@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {/* IMPLEMENT LOADING ICON HERE */}
+      {/* TODO: IMPLEMENT LOADING ICON HERE */}
     </main>
   );
 }

@@ -34,6 +34,21 @@ export const getOrganizationPokemons = createAsyncThunk(
   }
 );
 
+export const toggleLike = createAsyncThunk(
+  "/pokemons/favorite",
+  async (payload: any, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(
+        `/pokemons/${payload.pokemonId}/favorite`,
+        payload
+      );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const pokemonSlice = createAppSlice({
   name: "pokemon",
   initialState,

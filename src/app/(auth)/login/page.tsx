@@ -55,7 +55,7 @@ export default function Login() {
         console.log("email verification failed:", error);
         toast({
           title: error.message || 'Error occured',
-          description: 'Please wait...',
+          description: 'Please try later',
         });
       });
   };
