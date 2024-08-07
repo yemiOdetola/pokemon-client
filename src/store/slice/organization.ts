@@ -19,7 +19,6 @@ export const getOrganization = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/organizations");
-      console.log({ response });
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

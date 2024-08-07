@@ -17,11 +17,31 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+// axiosInstance.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      error.response.data.message === "Unauthorized"
+    ) {
+      localStorage.removeItem("token");
+
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+    }
     return Promise.reject(error);
   }
 );
