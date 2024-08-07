@@ -12,13 +12,26 @@ export const createAppSlice = buildCreateSlice({
 const initialState = {
   loading: false,
   organizations: null,
+  organizationInfo: null,
 };
 
-export const getOrganization = createAsyncThunk(
+export const getOrganizationAll = createAsyncThunk(
   "/organizations/all",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/organizations");
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getOrganizationDetails = createAsyncThunk(
+  "/organizations/id",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/organizations/${id}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -35,15 +48,19 @@ const organizationSlice = createAppSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getOrganization.pending, (state) => {
+    builder.addCase(getOrganizationAll.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getOrganization.rejected, (state) => {
+    builder.addCase(getOrganizationAll.rejected, (state) => {
       state.loading = false;
     });
-    builder.addCase(getOrganization.fulfilled, (state, action) => {
+    builder.addCase(getOrganizationAll.fulfilled, (state, action) => {
       state.organizations = action.payload;
       state.loading = false;
+    });
+
+    builder.addCase(getOrganizationDetails.fulfilled, (state, action) => {
+      state.organizationInfo = action.payload;
     });
   },
 });

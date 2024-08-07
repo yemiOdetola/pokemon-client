@@ -18,7 +18,6 @@ const initialState = {
   token: null,
   user: null,
   loading: false,
-  email: null,
 };
 
 export const signup = createAsyncThunk(

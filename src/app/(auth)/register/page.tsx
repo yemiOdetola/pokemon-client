@@ -20,7 +20,7 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { signup } from '@/store/slice/auth';
-import organization, { getOrganization } from '@/store/slice/organization';
+import { getOrganizationAll } from '@/store/slice/organization';
 
 
 interface RegisterInterface {
@@ -51,7 +51,7 @@ export default function Register() {
   const organizations: any = useAppSelector((state) => state.organization.organizations);
 
   useEffect(() => {
-    dispatch(getOrganization());
+    dispatch(getOrganizationAll());
   }, []);
 
   console.log({ organizations, loading });
