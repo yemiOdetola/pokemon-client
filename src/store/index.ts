@@ -3,9 +3,11 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import authReducer from "./slice/auth";
 import thunk from "redux-thunk";
+import organizationReducer from "./slice/organization";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  organization: organizationReducer,
 });
 
 const persistConfig = {

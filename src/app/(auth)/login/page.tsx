@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
@@ -11,11 +11,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from "@/components/ui/use-toast"
-import { login } from '@/store/slice/auth';
+import { signin } from '@/store/slice/auth';
 import { EyeOff, Eye } from 'lucide-react';
-
-
-type Props = {};
 interface LoginValues {
   email: string;
   password: string
@@ -36,7 +33,7 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { toast } = useToast();
-  const loading = useAppSelector((state: any) => state.auth.loading);
+  const loading = useAppSelector((state) => state.organization.loading);
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -46,27 +43,22 @@ export default function Login() {
   const handleSubmit = (values: any) => {
     const payload = { ...values }
 
-    dispatch(login(payload))
+    dispatch(signin(payload))
       .unwrap()
       .then((res: any) => {
         toast({
           title: res.message || 'Success',
-          description: 'Please wait...',
         });
-        router.push("/home");
+        router.push("/pokemons");
       })
       .catch((error: any) => {
         console.log("email verification failed:", error);
         toast({
-          title: error.message || 'Success',
+          title: error.message || 'Error occured',
           description: 'Please wait...',
         });
       });
   };
-
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-  }
 
   return (
     <div className="lg:p-8">

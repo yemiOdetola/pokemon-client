@@ -15,18 +15,30 @@ interface LoginPayload {
 }
 
 const initialState = {
-  page: "register",
   token: null,
   user: null,
   loading: false,
   email: null,
 };
 
-export const login = createAsyncThunk(
+export const signup = createAsyncThunk(
+  "/auth/signup",
+  async (payload: LoginPayload, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/auth/signup", payload);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const signin = createAsyncThunk(
   "/auth/signin",
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/auth/login", payload);
+      const response = await axiosInstance.post("/auth/signin", payload);
+      localStorage.setItem("email", payload.email);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -38,9 +50,6 @@ const authSlice = createAppSlice({
   name: "auth",
   initialState,
   reducers: {
-    setToken: (state, action) => {
-      state.token = action.payload.token;
-    },
     getUser: (state) => {
       let payload;
       const data: any = localStorage.getItem("userData");
@@ -54,15 +63,30 @@ const authSlice = createAppSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(login.pending, (state) => {
+    builder.addCase(signup.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(login.fulfilled, (state) => {
+    builder.addCase(signup.rejected, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(signup.fulfilled, (state) => {
+      state.loading = false;
+    });
+
+    builder.addCase(signin.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(signin.rejected, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(signin.fulfilled, (state, action) => {
+      localStorage.setItem("token", action.payload.access_token);
+      state.token = action.payload.access_token;
       state.loading = false;
     });
   },
 });
 
-export const { setToken, clearToken, getUser } = authSlice.actions;
+export const { clearToken, getUser } = authSlice.actions;
 
 export default authSlice.reducer;
