@@ -1,22 +1,71 @@
 'use client';
 
+import Link from 'next/link'
+import React, { useState } from 'react'
+import * as Yup from 'yup';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
+import { ErrorMessage, Field, FieldProps, Form, Formik } from 'formik';
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import Link from 'next/link'
-import React from 'react'
+import { useToast } from "@/components/ui/use-toast"
+import { login } from '@/store/slice/auth';
+import { EyeOff, Eye } from 'lucide-react';
+
+
+type Props = {};
+interface LoginValues {
+  email: string;
+  password: string
+}
+
+const initialValues: LoginValues = {
+  email: '',
+  password: '',
+};
+
+const validationSchema = Yup.object({
+  email: Yup.string().email('Invalid email address').required('Required'),
+  password: Yup.string().required('Required')
+});
+
 
 export default function Login() {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { toast } = useToast();
+  const loading = useAppSelector((state: any) => state.auth.loading);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const handleSubmit = (values: any) => {
+    const payload = { ...values }
+
+    dispatch(login(payload))
+      .unwrap()
+      .then((res: any) => {
+        toast({
+          title: res.message || 'Success',
+          description: 'Please wait...',
+        });
+        router.push("/home");
+      })
+      .catch((error: any) => {
+        console.log("email verification failed:", error);
+        toast({
+          title: error.message || 'Success',
+          description: 'Please wait...',
+        });
+      });
+  };
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
-    setIsLoading(true)
-
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
   }
 
   return (
@@ -31,43 +80,67 @@ export default function Login() {
           </p>
         </div>
         <div className="grid gap-6">
-          <form onSubmit={onSubmit}>
-            <div className="grid gap-2">
-              <div className="grid gap-1 mb-4">
-                <Label className="mb-1 text-black font-light" htmlFor="email">
-                  Email address
-                </Label>
-                <Input
-                  id="email"
-                  placeholder="user1@organization1.com"
-                  type="email"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  autoCorrect="off"
-                  disabled={isLoading}
-                />
-              </div>
-              <div className="grid gap-1 mb-4">
-                <Label className="mb-1 text-black font-light" htmlFor="password">
-                  Password
-                </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  autoCapitalize="none"
-                  autoComplete="password"
-                  autoCorrect="off"
-                  disabled={isLoading}
-                />
-              </div>
-              <Button disabled={isLoading}>
-                {isLoading && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Sign In with Email
-              </Button>
-            </div>
-          </form>
+          <Formik
+            className="grid gap-4"
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isValid }) => (
+              <Form>
+                <div className="grid gap-1.5">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Field name="email">
+                    {({ field }: FieldProps) => (
+                      <Input
+                        {...field}
+                        id="email"
+                        type="email"
+                        className="focus:outline-none"
+                        placeholder="user@example.com"
+                      />
+                    )}
+                  </Field>
+                  <ErrorMessage name="email" component="div" className="text-red-500 !text-sm" />
+                </div>
+                <div className="mt-6 grid gap-1.5">
+                  <Label htmlFor="email" className="mb-0">Password</Label>
+                  <div className="relative">
+                    <Field name="password" className="block">
+                      {({ field }: FieldProps) => (
+                        <Input
+                          {...field}
+                          id="password"
+                          type={showPassword ? 'text' : 'password'}
+                          className="bg-borderBg focus:outline-none"
+                          placeholder="Enter Password"
+                        />
+                      )}
+                    </Field>
+                    <button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="absolute right-2 top-[25%]"
+                    >
+                      {showPassword ? <EyeOff /> : <Eye />}
+                    </button>
+                  </div>
+                  <ErrorMessage name="password" component="div" className="text-red-500 !text-sm" />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full mt-4 disabled:cursor-not-allowed"
+                  variant={isValid ? "default" : "secondary"}
+                  disabled={!isValid || loading}
+                >
+                  {loading && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Sign In
+                </Button>
+              </Form>
+            )}
+          </Formik>
         </div>
         <p className="px-8 text-center text-sm text-muted-foreground">
           Dont have an account? {" "}
@@ -79,6 +152,6 @@ export default function Login() {
           </Link>
         </p>
       </div>
-    </div>
+    </div >
   )
 }
