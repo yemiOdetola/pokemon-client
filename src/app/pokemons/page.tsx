@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect } from "react"
 
 import {
@@ -65,21 +65,21 @@ export default function Pokemons() {
       limit: ITEMS_PER_PAGE
     }
 
-    if ((currentStatus === 'liked' && status === true) || (currentStatus === 'disliked' && status === false)) {
+    if ((currentStatus === "liked" && status === true) || (currentStatus === "disliked" && status === false)) {
       if (confirm("Are you sure you want to remove your rating?")) {
         dispatch(toggleLike(payload))
           .unwrap()
           .then((res: any) => {
             dispatch(getOrganizationPokemons(query));
             toast({
-              title: 'Rating removed',
+              title: "Rating removed",
             });
           })
           .catch((error: any) => {
             console.log("like/dislike removal failed:", error);
             toast({
-              title: error.message || 'Error occurred',
-              description: 'Please try later',
+              title: error.message || "Error occurred",
+              description: "Please try later",
             });
           });
       }
@@ -89,14 +89,14 @@ export default function Pokemons() {
         .then((res: any) => {
           dispatch(getOrganizationPokemons(query));
           toast({
-            title: res.message || 'Success',
+            title: res.message || "Success",
           });
         })
         .catch((error: any) => {
           console.log("like/dislike failed:", error);
           toast({
-            title: error.message || 'Error occurred',
-            description: 'Please try later',
+            title: error.message || "Error occurred",
+            description: "Please try later",
           });
         });
     }
@@ -106,7 +106,7 @@ export default function Pokemons() {
     if (favorites && favorites.length > 0) {
       for (const el of favorites) {
         if (user.id == el.userId) {
-          return el.liked ? 'liked' : 'disliked';
+          return el.liked ? "liked" : "disliked";
         }
       }
     }
@@ -120,7 +120,7 @@ export default function Pokemons() {
         <div className="h-full flex flex-col mt-[8%] items-center">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-semium tracking-tight">Pokemon club!</h2>
-            <p className="text-muted-foreground">Here's a list of pokemons for this organization!</p>
+            <p className="text-muted-foreground mt-2">List of pokemons for this organization!</p>
           </div>
           <div className="w-full lg:w-[70%]">
             <div className="rounded border">
@@ -154,7 +154,7 @@ export default function Pokemons() {
                             }
                           </TableCell>
                           <TableCell className="font-medium capitalize">{pokemon?.name}</TableCell>
-                          <TableCell className="">{pokemon?.species?.name || 'Unknown'}</TableCell>
+                          <TableCell className="">{pokemon?.species?.name || "Unknown"}</TableCell>
                           <TableCell>{pokemon.weight}g</TableCell>
                           <TableCell>
                             <Button
@@ -163,7 +163,7 @@ export default function Pokemons() {
                             >
                               <ThumbsUp
                                 size={18}
-                                className={checkLikeStatus(pokemon.favorites) === 'liked' ? 'text-teal-500' : ''}
+                                className={checkLikeStatus(pokemon.favorites) === "liked" ? "text-teal-500" : ""}
                               />
                             </Button>
                             <Button
@@ -172,7 +172,7 @@ export default function Pokemons() {
                             >
                               <ThumbsDown
                                 size={18}
-                                className={checkLikeStatus(pokemon.favorites) === 'disliked' ? 'text-red-500' : ''}
+                                className={checkLikeStatus(pokemon.favorites) === "disliked" ? "text-red-500" : ""}
                               />
                             </Button>
                           </TableCell>
