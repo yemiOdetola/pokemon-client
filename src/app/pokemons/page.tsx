@@ -147,8 +147,8 @@ export default function Pokemons() {
                               <Image
                                 src={image}
                                 alt={pokemon.name}
-                                width={40}
-                                height={40}
+                                width={48}
+                                height={48}
                               />
                               : <Star size={40} />
                             }
