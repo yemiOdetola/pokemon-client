@@ -51,7 +51,7 @@ export default function Login() {
         toast({
           title: res.message || 'Success',
         });
-        // router.push("/pokemons");
+        router.push("/pokemons");
       })
       .catch((error: any) => {
         console.log("email verification failed:", error);

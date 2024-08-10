@@ -4,6 +4,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { getOrganizationDetails } from "@/store/slice/organization";
 import { useEffect } from "react";
+import { Button } from "./button";
 
 export default function Sidebar() {
   const dispatch = useAppDispatch();
@@ -16,8 +17,6 @@ export default function Sidebar() {
     }
   }, [user, dispatch]);
 
-  console.log({ organization });
-
 
   return (
     <nav className="sticky top-0 left-0 hidden h-screen border-r pt-16 md:block w-80">
@@ -27,7 +26,7 @@ export default function Sidebar() {
             <span className="relative overflow-hidden mb-4 block">
               <User size={80} className="mx-auto" />
             </span>
-            <div className=" mb-8 text-center">
+            <div className=" mb-[4rem] text-center">
               <p className="text-sm font-medium leading-none">Current login</p>
               <p className="text-sm text-muted-foreground">{'yemiotola@gmail.com'}</p>
             </div>
@@ -49,6 +48,9 @@ export default function Sidebar() {
                 <p className="text-xs">Extra Metadata...</p>
               </div>
             </div>
+            <Button variant="destructive" size="sm" className="w-3/4">
+              Logout
+            </Button>
           </div>
         </div>
       </div>
