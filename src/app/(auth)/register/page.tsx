@@ -47,7 +47,7 @@ export default function Register() {
   const router = useRouter();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
-  const loading = useAppSelector((state) => state.organization.loading);
+  const loading = useAppSelector((state) => state.auth.loading);
   const organizations: any = useAppSelector((state) => state.organization.organizations);
 
   useEffect(() => {

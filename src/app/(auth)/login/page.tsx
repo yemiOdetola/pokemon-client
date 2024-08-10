@@ -33,8 +33,10 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { toast } = useToast();
-  const loading = useAppSelector((state) => state.organization.loading);
+  const loading = useAppSelector((state) => state.auth.loading);
   const [showPassword, setShowPassword] = useState(false);
+
+  console.log({ loading });
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -49,7 +51,7 @@ export default function Login() {
         toast({
           title: res.message || 'Success',
         });
-        router.push("/pokemons");
+        // router.push("/pokemons");
       })
       .catch((error: any) => {
         console.log("email verification failed:", error);
