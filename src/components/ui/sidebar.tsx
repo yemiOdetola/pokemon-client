@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { getOrganizationDetails } from "@/store/slice/organization";
+import { clearAuthData } from "@/store/slice/auth";
 import { useEffect } from "react";
 import { Button } from "./button";
 
@@ -17,6 +18,9 @@ export default function Sidebar() {
     }
   }, [user, dispatch]);
 
+  const logout = () => {
+    dispatch(clearAuthData());
+  }
 
   return (
     <nav className="sticky top-0 left-0 hidden h-screen border-r pt-16 md:block w-80">
@@ -48,7 +52,7 @@ export default function Sidebar() {
                 <p className="text-xs">Extra Metadata...</p>
               </div>
             </div>
-            <Button variant="destructive" size="sm" className="w-3/4">
+            <Button variant="destructive" size="sm" className="w-3/4" onClick={logout}>
               Logout
             </Button>
           </div>

@@ -57,8 +57,11 @@ const authSlice = createAppSlice({
         state.user = payload;
       }
     },
-    clearToken: (state) => {
+    clearAuthData: (state) => {
       state.token = null;
+      state.user = null;
+      localStorage.removeItem('token');
+      window.location.href = "/login";
     },
   },
   extraReducers: (builder) => {
@@ -87,6 +90,6 @@ const authSlice = createAppSlice({
   },
 });
 
-export const { clearToken, getUser } = authSlice.actions;
+export const { clearAuthData, getUser } = authSlice.actions;
 
 export default authSlice.reducer;

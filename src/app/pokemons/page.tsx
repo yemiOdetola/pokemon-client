@@ -25,11 +25,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { getOrganizationPokemons, toggleLike } from "@/store/slice/pokemon";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/useAuth";
 
 export default function Pokemons() {
   const dispatch = useAppDispatch();
-  const router = useRouter();
   const { toast } = useToast();
+  useAuth();
   const loading = useAppSelector((state) => state.pokemon.loading);
   const pokemons: any = useAppSelector((state) => state.pokemon.pokemons);
   const user: any = useAppSelector((state) => state.auth.user);
@@ -105,7 +106,7 @@ export default function Pokemons() {
   const checkLikeStatus = (favorites: any[]) => {
     if (favorites && favorites.length > 0) {
       for (const el of favorites) {
-        if (user.id == el.userId) {
+        if (user && user.id == el.userId) {
           return el.liked ? "liked" : "disliked";
         }
       }
