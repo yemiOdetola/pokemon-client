@@ -29,7 +29,7 @@ export default function Sidebar() {
             </span>
             <div className=" mb-8 text-center">
               <p className="text-sm font-medium leading-none">Current login</p>
-              <p className="text-sm text-muted-foreground">{user?.email || 'yemiotola@gmail.com'}</p>
+              <p className="text-sm text-muted-foreground">{'yemiotola@gmail.com'}</p>
             </div>
             <div className="flex items-center mb-8">
               <span className="relative overflow-hidden">
@@ -37,7 +37,7 @@ export default function Sidebar() {
               </span>
               <div className="ml-4 space-y-1">
                 <p className="text-sm font-medium leading-none">Organization</p>
-                <p className="text-sm text-muted-foreground capitalize">{organization.name}</p>
+                <p className="text-sm text-muted-foreground capitalize">{organization?.name || "Organization X"}</p>
               </div>
             </div>
             <div className="flex items-center mb-8">
@@ -46,7 +46,7 @@ export default function Sidebar() {
               </span>
               <div className="ml-4 space-y-1">
                 <p className="text-sm font-medium leading-none"></p>
-                <p className="text-sm text-muted-foreground">olivia.martin@email.com</p>
+                <p className="text-xs">Extra Metadata...</p>
               </div>
             </div>
           </div>
